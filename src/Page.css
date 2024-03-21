@@ -1,0 +1,142 @@
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #000000;
+}
+
+form {
+  background: #f5f5f5;
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 10px 20px;
+}
+
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  border: 1px solid #afafaf;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: #ffffff;
+  color: #000000;
+  margin-bottom: 30px;
+}
+
+input::placeholder {
+  color: #000000;
+}
+
+button {
+  padding: 20px 40px;
+  color: #FFF;
+  background-color: #374278;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  font-weight: bold;
+  width: 100%;
+  border: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  margin: 0 4px 8px 0;
+  vertical-align: middle;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+div.radio {
+  margin-bottom: 15px;
+}
+
+h3.first {
+  margin-top: 40px;
+}
+
+@media screen and (min-width: 500px) {
+
+  form {
+    max-width: 500px;
+  }
+
+}
+
+table {
+  background-color: #ffffff;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+th,
+td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.invalid-criteria input {
+  border: 2px solid red;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  color: #000000;
+  padding: 10px 20px;
+}
+
+.header ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.header ul li {
+  display: inline;
+}
+
+.header ul li:not(:last-child) {
+  margin-right: 20px;
+}
+
+.header a {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  text-decoration: none;
+}
+
+.header a:hover {
+  color: #374278;
+}
