@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const AdminHeader = () => {
   return (
     <div className="header">
       <ul>
@@ -10,10 +10,11 @@ const Header = () => {
         <li><Link to="/admin/expert">Эксперты</Link></li>
         <li><Link to="/admin/admin">Организаторы</Link></li>
         <li><Link to="/admin/criteria">Категории и критерии</Link></li>
+        <li><Link to="/admin/opinion">Заключения</Link></li>
         <li><Link to="/admin/rating">Рейтинг</Link></li>
       </ul>
     </div>
   );
 };
 
-export default Header;
+export default AdminHeader;
