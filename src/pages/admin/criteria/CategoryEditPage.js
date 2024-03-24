@@ -11,7 +11,7 @@ const CategoryEditPage = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [selectedNumberBeforeEdit, setSelectedNumberBeforeEdit] = useState("");
 
-  const serverPath = "http://localhost:8080/category";
+  const serverPath = process.env.REACT_APP_SERVER_PATH + "/category";
   const basicAuth = {
     username: process.env.REACT_APP_USERNAME,
     password: process.env.REACT_APP_PASSWORD

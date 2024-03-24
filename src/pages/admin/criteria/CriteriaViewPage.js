@@ -6,7 +6,7 @@ const CriteriaViewPage = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [criteriaList, setCriteriaList] = useState([]);
 
-  const serverPath = "http://localhost:8080";
+  const serverPath = process.env.REACT_APP_SERVER_PATH;
   const basicAuth = {
     username: process.env.REACT_APP_USERNAME,
     password: process.env.REACT_APP_PASSWORD

@@ -8,7 +8,7 @@ const AdminEditPage = () => {
   const [selectedAdmin, setSelectedAdmin] = useState("");
   const [adminList, setAdminList] = useState([]);
 
-  const serverPath = "http://localhost:8080/admin";
+  const serverPath = process.env.REACT_APP_SERVER_PATH + "/admin";
   const basicAuth = {
     username: process.env.REACT_APP_USERNAME,
     password: process.env.REACT_APP_PASSWORD

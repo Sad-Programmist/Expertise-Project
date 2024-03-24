@@ -7,7 +7,7 @@ const ProjectsViewPage = () => {
   const [projects, setProjects] = useState([]);
   const [years, setYears] = useState([]);
 
-  const serverPath = "http://localhost:8080/project";
+  const serverPath = process.env.REACT_APP_SERVER_PATH + "/project";
   const basicAuth = {
     username: process.env.REACT_APP_USERNAME,
     password: process.env.REACT_APP_PASSWORD

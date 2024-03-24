@@ -14,7 +14,7 @@ const ExpertEditPage = () => {
   const [expertList, setExpertList] = useState([]);
   const [selectedNameBeforeEdit, setSelectedNameBeforeEdit] = useState("");
 
-  const serverPath = "http://localhost:8080/expert";
+  const serverPath = process.env.REACT_APP_SERVER_PATH + "/expert";
   const basicAuth = {
     username: process.env.REACT_APP_USERNAME,
     password: process.env.REACT_APP_PASSWORD
