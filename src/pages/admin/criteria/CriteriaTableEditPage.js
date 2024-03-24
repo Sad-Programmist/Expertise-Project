@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../../components/Header.js";
+import AdminHeader from "../../../components/AdminHeader";
 
 const CriteriaTableEditPage = () => {
   const navigate = useNavigate();
@@ -19,9 +19,10 @@ const CriteriaTableEditPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form>
-        <h2>Просмотреть таблицу критериев</h2>
+        <h2>Просмотр таблицы критериев</h2>
+        <p>Для просмотра всех критериев нажмите на кнопку "Посмотреть".</p>
         <button onClick={handleViewCriteria}>Посмотреть</button>
       </form>
       <form>

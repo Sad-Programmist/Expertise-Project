@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../../../components/Header";
+import AdminHeader from "../../../components/AdminHeader";
 
 const ExpertViewPage = () => {
   const [expertList, setExpertList] = useState([]);
@@ -26,9 +26,10 @@ const ExpertViewPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form>
         <h2>Просмотреть экспертов</h2>
+        <p>В таблице будет отражен список всех зарегистрированных на сервисе экспертов.</p>
         <table>
           <thead>
             <tr>

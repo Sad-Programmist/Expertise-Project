@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminCreateDto from "./dto/AdminCreateDto";
-import Header from "../../components/Header.js";
+import AdminHeader from "../../components/AdminHeader";
 
 const AdminEditPage = () => {
   const [newAdmin, setNewAdmin] = useState({ login: "", password: "" });
@@ -51,9 +51,13 @@ const AdminEditPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form onSubmit={handleAddOrganizer}>
-        <h2>Добавить нового организатора</h2>
+        <h2>Добавление нового организатора</h2>
+        <p>Для добавления нового организатора необходимо заполнить логин и пароль для авторизации на сервисе.
+          После нажмите на кнопку "Добавить", чтобы сохранить нового организатора. <br />  <br />
+          Внимание! Все поля обязательны для заполнения!</p>
+        <label>Заполните логин организатора:</label>
         <input
           required
           type="text"
@@ -62,6 +66,7 @@ const AdminEditPage = () => {
           value={newAdmin.login}
           onChange={(e) => setNewAdmin({ ...newAdmin, login: e.target.value })}
         />
+        <label>Заполните пароль организатора:</label>
         <input
           required
           type="password"
@@ -74,7 +79,11 @@ const AdminEditPage = () => {
       </form>
 
       <form onSubmit={handleDeleteOrganizer}>
-        <h2>Удалить организатора</h2>
+        <h2>Удаление организатора</h2>
+        <p>Для удаления организатора неоходимо в выпадающем списке по логину выбрать организатора, данные о котором собираетесь удалить. 
+          После этого нажмите на кнопку "Удалить", чтобы выбранный организатор был удален. <br /><br />
+          Внимание! Данные об организаторе нельзя будет восстановить после удаления!
+        </p>
         <select
           required
           value={selectedAdmin}

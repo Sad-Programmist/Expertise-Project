@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import OpinionChangeDto from "../../admin/dto/OpinionChangeDto";
+import ExpertHeader from "../../../components/ExpertHeader";
 
 const OpinionChangePage = () => {
     const [projectList, setProjectList] = useState([]);
@@ -18,7 +19,7 @@ const OpinionChangePage = () => {
     const basicAuth = {
         username: process.env.REACT_APP_USERNAME,
         password: process.env.REACT_APP_PASSWORD
-      };
+    };
 
     useEffect(() => {
         fetchProjectThemes();
@@ -140,73 +141,83 @@ const OpinionChangePage = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Изменить экспертное заключение на идею инновационного проекта</h2>
-            <div>
-                <h3 className="first">Эксперт: {expertName}</h3>
-                <h3>Автор: {selectedProject && projectList.find(project => project.id == selectedProject)?.participants}</h3>
-                <h3>Тема:</h3>
-                <select required value={selectedProject} onChange={handleProjectChange}>
-                    <option value="">Выберите тему проекта</option>
-                    {projectList.map((project) => (
-                        <option key={project.id} value={project.id}>{project.theme}</option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <h2>Критерии экспертной оценки проекта</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Номер</th>
-                            <th>Текст</th>
-                            <th>Балл</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {categoryList.map(category => (
-                            <React.Fragment key={category.id}>
-                                <tr>
-                                    <td>{category.number}</td>
-                                    <td>{category.text}</td>
-                                    <td>Максимальная сумма баллов - {category.maxsum}</td>
-                                </tr>
-                                {criteriaList.filter(criteria => criteria.categoryId === category.id).map(criteria => (
-                                    <tr key={criteria.id} className={invalidCriteriaIds.includes(criteria.id) ? "invalid-criteria" : ""}>
-                                        <td>{`${category.number}.${criteria.number}`}</td>
-                                        <td>{criteria.text}</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                required
-                                                value={criteriaScores[criteria.id] !== undefined ? criteriaScores[criteria.id] : ""}
-                                                onChange={(event) => handleCriteriaScoreChange(criteria.id, event)}
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </React.Fragment>
+        <div>
+            <ExpertHeader />
+            <form>
+                <h2>Изменение экспертного заключения на идею инновационного проекта</h2>
+                <p>Чтобы изменить экспертное заключение в выпадающем списке по теме проекта выберите проект, экспертное заключение по которому собираетесь изменить.
+                    Все сохраненные данные экспертного заключения заполнятся автоматически. <br /> <br />
+                    После внесения всех желаемых изменений, нажмите кнопку "Отправить", чтобы изменения в экспертном заключении были сохранены. <br /> <br />
+                    Учитывайте, что у каждой категории есть максимальная сумма баллов. Если сумма будет превышена, появится сообщение об ошибке и неправильно заполненная категория будет подсвечена красным цветом.
+                </p>
+            </form>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <h3 className="first">Эксперт: {expertName}</h3>
+                    <h3>Автор: {selectedProject && projectList.find(project => project.id == selectedProject)?.participants}</h3>
+                    <h3>Тема:</h3>
+                    <select required value={selectedProject} onChange={handleProjectChange}>
+                        <option value="">Выберите тему проекта</option>
+                        {projectList.map((project) => (
+                            <option key={project.id} value={project.id}>{project.theme}</option>
                         ))}
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <h2>Заключение эксперта</h2>
-                <textarea maxLength={512} value={opinion} onChange={(event) => setOpinion(event.target.value)} />
-            </div>
-            <div>
-                <h2>Выводы</h2>
-                <div className="radio">
-                    <input type="radio" name="support" value="true" onChange={() => setSupport(true)} checked={support === true} />
-                    <label className="light"> проект заслуживает безусловной поддержки, допустить к финальной презентационной сессии</label>
+                    </select>
                 </div>
-                <div className="radio">
-                    <input type="radio" name="support" value="false" onChange={() => setSupport(false)} checked={support === false} />
-                    <label className="light"> проект не заслуживает поддержки</label>
+                <div>
+                    <h2>Критерии экспертной оценки проекта</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Текст</th>
+                                <th>Балл</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {categoryList.map(category => (
+                                <React.Fragment key={category.id}>
+                                    <tr>
+                                        <td>{category.number}</td>
+                                        <td>{category.text}</td>
+                                        <td>Максимальная сумма баллов - {category.maxsum}</td>
+                                    </tr>
+                                    {criteriaList.filter(criteria => criteria.categoryId === category.id).map(criteria => (
+                                        <tr key={criteria.id} className={invalidCriteriaIds.includes(criteria.id) ? "invalid-criteria" : ""}>
+                                            <td>{`${category.number}.${criteria.number}`}</td>
+                                            <td>{criteria.text}</td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    required
+                                                    value={criteriaScores[criteria.id] !== undefined ? criteriaScores[criteria.id] : ""}
+                                                    onChange={(event) => handleCriteriaScoreChange(criteria.id, event)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </React.Fragment>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <button type="submit">Отправить</button>
-        </form>
+                <div>
+                    <h2>Заключение эксперта</h2>
+                    <textarea maxLength={512} value={opinion} onChange={(event) => setOpinion(event.target.value)} />
+                </div>
+                <div>
+                    <h2>Выводы</h2>
+                    <div className="radio">
+                        <input type="radio" name="support" value="true" onChange={() => setSupport(true)} checked={support === true} />
+                        <label className="light"> проект заслуживает безусловной поддержки, допустить к финальной презентационной сессии</label>
+                    </div>
+                    <div className="radio">
+                        <input type="radio" name="support" value="false" onChange={() => setSupport(false)} checked={support === false} />
+                        <label className="light"> проект не заслуживает поддержки</label>
+                    </div>
+                </div>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
     );
 };
 

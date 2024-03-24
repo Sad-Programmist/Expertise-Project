@@ -4,12 +4,20 @@ import { useNavigate } from "react-router-dom";
 const ExpertPage = () => {
   const navigate = useNavigate();
 
-  const handleOpinionCreate = () => {
+  const handleOpinionCreateClick = () => {
     navigate("/expert/create");
   };
 
-  const handleOpinionChange = () => {
+  const handleOpinionChangeClick = () => {
     navigate("/expert/change");
+  };
+
+  const handleOpinionViewClick = () => {
+    navigate("/expert/view");
+  };
+
+  const handleExitClick = () => {
+    navigate("/auth");
   };
 
   return (
@@ -17,10 +25,10 @@ const ExpertPage = () => {
       <form>
         <h1>Меню эксперта</h1>
         <div>
-          <button onClick={handleOpinionCreate}>Добавить экспертное заключение</button>
-        </div>
-        <div>
-          <button onClick={handleOpinionChange}>Изменить экспертное заключение</button>
+          <button onClick={handleOpinionCreateClick}>Добавление экспертного заключения</button>
+          <button onClick={handleOpinionChangeClick}>Изменение экспертного заключения</button>
+          <button onClick={handleOpinionViewClick}>Просмотр экспертного заключения</button>
+          <button onClick={handleExitClick}>Выход</button>
         </div>
       </form>
     </div>

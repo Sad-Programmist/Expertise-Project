@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../../../components/Header.js"
+import AdminHeader from "../../../components/AdminHeader"
 
 const ProjectsViewPage = () => {
   const [selectedYear, setSelectedYear] = useState("");
@@ -47,9 +47,10 @@ const ProjectsViewPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form>
-        <h2>Просмотреть проекты</h2>
+        <h2>Просмотр проектов</h2>
+        <p>Для просмотра списка проектов, необходимо сначала в выпадающем списке выбрать год участия проектов.</p>
         <select value={selectedYear} onChange={handleYearChange}>
           <option value="">Выберите год</option>
           {years.map(year => (

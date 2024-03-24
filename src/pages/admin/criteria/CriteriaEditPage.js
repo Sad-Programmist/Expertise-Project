@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CriteriaCreateDto from "../dto/CriteriaCreateDto";
-import Header from "../../../components/Header.js";
+import AdminHeader from "../../../components/AdminHeader";
 
 const CriteriaEditPage = () => {
   const [newCriteria, setNewCriteria] = useState({ number: "", text: "", categoryId: "" });
@@ -62,9 +62,12 @@ const CriteriaEditPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form onSubmit={handleAddCriteria}>
-        <h2>Добавить новый критерий</h2>
+        <h2>Добавление нового критерия</h2>
+        <p>Для добавления нового критерия необходимо заполнить номер категории, к которой будет относится критерий, номер самого критерия и текст.
+          После нажмите на кнопку "Добавить", чтобы сохранить новый критерий. <br />  <br />
+          Внимание! Все поля обязательны для заполнения!</p>
         <select
           required
           value={newCriteria.category}
@@ -75,6 +78,7 @@ const CriteriaEditPage = () => {
             <option key={category.id} value={category.id}>{category.number}</option>
           ))}
         </select>
+        <label>Заполните номер критерия:</label>
         <input
           required
           type="number"
@@ -82,6 +86,7 @@ const CriteriaEditPage = () => {
           value={newCriteria.number}
           onChange={(e) => setNewCriteria({ ...newCriteria, number: e.target.value })}
         />
+        <label>Заполните текст критерия:</label>
         <input
           required
           type="text"
@@ -94,7 +99,11 @@ const CriteriaEditPage = () => {
       </form>
 
       <form onSubmit={handleDeleteCriteria}>
-        <h2>Удалить критерий</h2>
+        <h2>Удаление критерия</h2>
+        <p>Для удаления критерия неоходимо в выпадающем списке по номеру критерия выбрать критерий, данные о котором собираетесь удалить. 
+          После этого нажмите на кнопку "Удалить", чтобы выбранный критерий был удален. <br /><br />
+          Внимание! Данные о критерии нельзя будет восстановить после удаления!
+        </p>
         <select
           required
           value={selectedCriteria}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../../../components/Header";
+import AdminHeader from "../../../components/AdminHeader";
 
 const CriteriaViewPage = () => {
   const [categoryList, setCategoryList] = useState([]);
@@ -37,9 +37,10 @@ const CriteriaViewPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form>
-        <h2>Просмотреть таблицу критериев</h2>
+        <h2>Просмотр таблицы критериев</h2>
+        <p>В таблице будет отражен список всех критериев по категориям с указанием максимального балла.</p>
         <table>
           <thead>
             <tr>

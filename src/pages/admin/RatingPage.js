@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../../components/Header";
+import AdminHeader from "../../components/AdminHeader";
 
 const RatingPage = () => {
   const [selectedYear, setSelectedYear] = useState("");
@@ -49,9 +49,12 @@ const RatingPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form>
-        <h2>Рейтинг проектов</h2>
+        <h2>Просмотр рейтинга проектов</h2>
+        <p>Для просмотра рейтинга проектов, необходимо сначала в выпадающем списке выбрать год участия проектов. <br /><br />
+          Проект, который поддержало меньше половины экспертов, автоматически получает балл раный 0 и не проходит в финал.
+        </p>
         <select
           value={selectedYear}
           onChange={handleYearChange}>

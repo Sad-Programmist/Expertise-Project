@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ExpertCreateDto from "../dto/ExpertCreateDto";
 import ExpertChangeDto from "../dto/ExpertChangeDto";
-import Header from "../../../components/Header.js";
+import AdminHeader from "../../../components/AdminHeader";
 
 const ExpertEditPage = () => {
   const navigate = useNavigate();
@@ -82,14 +82,19 @@ const ExpertEditPage = () => {
 
   return (
     <div>
-      <Header />
+      <AdminHeader />
       <form>
-        <h2>Просмотреть экспертов</h2>
+        <h2>Просмотр экспертов</h2>
+        <p>Для просмотра всех экспертов нажмите на кнопку "Посмотреть".</p>
         <button onClick={handleExpertViewClick}>Посмотреть</button>
       </form>
 
       <form onSubmit={handleAddExpert}>
-        <h2>Добавить нового эксперта</h2>
+        <h2>Добавление нового эксперта</h2>
+        <p>Для добавления нового эксперта необходимо заполнить ФИО эксперта, логин и пароль для авторизации на сервисе.
+          После нажмите на кнопку "Добавить", чтобы сохранить нового эксперта. <br />  <br />
+          Внимание! Все поля обязательны для заполнения!</p>
+        <label>Заполните ФИО эксперта:</label>
         <input
           required
           type="text"
@@ -98,6 +103,7 @@ const ExpertEditPage = () => {
           value={newExpert.name}
           onChange={(e) => setNewExpert({ ...newExpert, name: e.target.value })}
         />
+        <label>Заполните логин эксперта:</label>
         <input
           required
           type="text"
@@ -106,6 +112,7 @@ const ExpertEditPage = () => {
           value={newExpert.login}
           onChange={(e) => setNewExpert({ ...newExpert, login: e.target.value })}
         />
+        <label>Заполните пароль эксперта:</label>
         <input
           required
           type="password"
@@ -118,7 +125,10 @@ const ExpertEditPage = () => {
       </form>
 
       <form onSubmit={handleEditExpert}>
-        <h2>Изменить данные эксперта</h2>
+        <h2>Изменение данных эксперта</h2>
+        <p>Для изменения данных об эксперте необходимо в выпадающем списке по ФИО эксперта выбрать эксперта, данные о котором собираетесь изменить. <br /><br />
+          После выбора определенного эксперта все поля автоматически заполнятся информацией, сохраненной об эксперте на данный момент. <br /><br />
+          Измените все необходимые поля и затем нажмите кнопку "Изменить", чтобы сохранить новые данные об эксперте.</p>
         <select
           required
           value={selectedNameBeforeEdit}
@@ -128,6 +138,7 @@ const ExpertEditPage = () => {
             <option key={expert.id} value={expert.name}>{expert.name}</option>
           ))}
         </select>
+        <label>Заполните ФИО эксперта:</label>
         <input
           required
           type="text"
@@ -136,6 +147,7 @@ const ExpertEditPage = () => {
           value={editExpert.name}
           onChange={(e) => setEditExpert({ ...editExpert, name: e.target.value })}
         />
+        <label>Заполните логин эксперта:</label>
         <input
           required
           type="text"
@@ -144,6 +156,7 @@ const ExpertEditPage = () => {
           value={editExpert.login}
           onChange={(e) => setEditExpert({ ...editExpert, login: e.target.value })}
         />
+        <label>Заполните пароль эксперта:</label>
         <input
           required
           type="password"
@@ -157,6 +170,10 @@ const ExpertEditPage = () => {
 
       <form onSubmit={handleDeleteExpert}>
         <h2>Удалить эксперта</h2>
+        <p>Для удаления эксперта неоходимо в выпадающем списке по ФИО эксперта выбрать эксперта, данные о котором собираетесь удалить. 
+          После этого нажмите на кнопку "Удалить", чтобы выбранный эксперт был удален. <br /><br />
+          Внимание! Данные об эксперте нельзя будет восстановить после удаления!
+        </p>
         <select
           required
           value={selectedExpert}
