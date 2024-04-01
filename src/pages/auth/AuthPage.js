@@ -8,6 +8,7 @@ const AuthPage = () => {
   const [selectedRole, setSelectedRole] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const serverPath = process.env.REACT_APP_SERVER_PATH;
   const basicAuth = {
@@ -17,6 +18,8 @@ const AuthPage = () => {
 
   const handleAuth = async (event) => {
     event.preventDefault();
+    document.body.style.cursor = 'wait';
+    setIsLoading(true);
     try {
       if (selectedRole === "expert") {
         const response = await axios.post(serverPath + "/expert/auth", { login, password }, { auth: basicAuth });
@@ -28,6 +31,8 @@ const AuthPage = () => {
     } catch (error) {
       alert("Неверный логин или пароль");
     }
+    document.body.style.cursor = 'default';
+    setIsLoading(false);
   };
 
   return (
@@ -55,7 +60,7 @@ const AuthPage = () => {
         />
       </div>
       <div>
-        <button type="submit">Авторизоваться</button>
+        <button disabled={isLoading} type="submit">Авторизоваться</button>
       </div>
     </form>
   );

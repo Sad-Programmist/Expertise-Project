@@ -13,6 +13,7 @@ const OpinionChangePage = () => {
     const [criteriaScores, setCriteriaScores] = useState({});
     const [support, setSupport] = useState(false);
     const [invalidCriteriaIds, setInvalidCriteriaIds] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const loggedExpertId = localStorage.getItem("loggedExpertId");
 
     const serverPath = process.env.REACT_APP_SERVER_PATH;
@@ -101,7 +102,7 @@ const OpinionChangePage = () => {
                 return total + parseInt(criteriaScores[criteria.id] || 0);
             }, 0);
 
-            if (categoryScores < category.minsum || categoryScores > category.maxsum) {
+            if (categoryScores > category.maxsum) {
                 invalidCategories.push(category.id);
             }
         });
@@ -112,6 +113,8 @@ const OpinionChangePage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        document.body.style.cursor = 'wait';
+        setIsLoading(true);
 
         const invalidCategories = validateCategoryScores();
 
@@ -120,6 +123,8 @@ const OpinionChangePage = () => {
             const invalidCriteria = criteriaList.filter(criteria => invalidCategories.includes(criteria.categoryId));
             const invalidCriteriaIds = invalidCriteria.map(criteria => criteria.id);
             setInvalidCriteriaIds(invalidCriteriaIds);
+            document.body.style.cursor = 'default';
+            setIsLoading(false);
             return;
         }
 
@@ -138,6 +143,8 @@ const OpinionChangePage = () => {
         } catch (error) {
             alert("Ошибка при отправке экспертного заключения");
         }
+        document.body.style.cursor = 'default';
+        setIsLoading(false);
     };
 
     return (
@@ -215,7 +222,7 @@ const OpinionChangePage = () => {
                         <label className="light"> проект не заслуживает поддержки</label>
                     </div>
                 </div>
-                <button type="submit">Отправить</button>
+                <button disabled={isLoading} type="submit">Отправить</button>
             </form>
         </div>
     );

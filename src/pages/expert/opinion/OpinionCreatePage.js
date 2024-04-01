@@ -13,6 +13,7 @@ const OpinionCreatePage = () => {
     const [criteriaScores, setCriteriaScores] = useState({});
     const [support, setSupport] = useState(false);
     const [invalidCriteriaIds, setInvalidCriteriaIds] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const loggedExpertId = localStorage.getItem("loggedExpertId");
 
     const serverPath = process.env.REACT_APP_SERVER_PATH;
@@ -42,6 +43,12 @@ const OpinionCreatePage = () => {
         try {
             const response = await axios.get(serverPath + "/criteria/edit", { auth: basicAuth });
             setCriteriaList(response.data);
+
+            const initialCriteriaScores = {};
+            response.data.forEach(criteria => {
+                initialCriteriaScores[criteria.id] = 0;
+            });
+            setCriteriaScores(initialCriteriaScores);
         } catch (error) {
             alert("Ошибка загрузки списка критериев");
         }
@@ -86,7 +93,7 @@ const OpinionCreatePage = () => {
                 return total + parseInt(criteriaScores[criteria.id] || 0);
             }, 0);
 
-            if (categoryScores < category.minsum || categoryScores > category.maxsum) {
+            if (categoryScores > category.maxsum) {
                 invalidCategories.push(category.id);
             }
         });
@@ -96,6 +103,8 @@ const OpinionCreatePage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        document.body.style.cursor = 'wait';
+        setIsLoading(true);
 
         const invalidCategories = validateCategoryScores();
 
@@ -104,6 +113,8 @@ const OpinionCreatePage = () => {
             const invalidCriteria = criteriaList.filter(criteria => invalidCategories.includes(criteria.categoryId));
             const invalidCriteriaIds = invalidCriteria.map(criteria => criteria.id);
             setInvalidCriteriaIds(invalidCriteriaIds);
+            document.body.style.cursor = 'default';
+            setIsLoading(false);
             return;
         }
 
@@ -112,6 +123,7 @@ const OpinionCreatePage = () => {
                 criteriaList.filter(criteria => criteria.categoryId === category.id).map(criteria => criteriaScores[criteria.id])
             );
             const opinionDto = new OpinionCreateDto(selectedProject, loggedExpertId, scores, opinion, support);
+            console.log(opinionDto);
             await axios.post(serverPath + "/opinion/create", opinionDto, { auth: basicAuth });
 
             setSelectedProjectTheme("");
@@ -122,6 +134,8 @@ const OpinionCreatePage = () => {
         } catch (error) {
             alert("Ошибка при отправке экспертного заключения");
         }
+        document.body.style.cursor = 'default';
+        setIsLoading(false);
     };
 
     return (
@@ -174,7 +188,7 @@ const OpinionCreatePage = () => {
                                             <td>
                                                 <input
                                                     type="number"
-                                                    required
+                                                    placeholder="0"
                                                     value={criteriaScores[criteria.id] || ""}
                                                     onChange={(event) => handleCriteriaScoreChange(criteria.id, event)}
                                                 />
@@ -201,7 +215,7 @@ const OpinionCreatePage = () => {
                         <label className="light"> проект не заслуживает поддержки</label>
                     </div>
                 </div>
-                <button type="submit">Отправить</button>
+                <button disabled={isLoading} type="submit">Отправить</button>
             </form>
         </div>
     );
