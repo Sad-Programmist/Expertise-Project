@@ -27,8 +27,8 @@ const CriteriaTableEditPage = () => {
       </form>
       <form>
         <h2>Меню редактирования категорий и критериев</h2>
-        <button onClick={handleCategories}>Работа с категориями критериев</button>
-        <button onClick={handleCriteria}>Работа с критериями</button>
+        <button onClick={handleCategories}>Редактирование категорий критериев</button>
+        <button onClick={handleCriteria}>Редактирование критериев</button>
       </form>
     </div>
   );

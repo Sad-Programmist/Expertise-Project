@@ -5,8 +5,8 @@ import CategoryChangeDto from "../dto/CategoryChangeDto";
 import AdminHeader from "../../../components/AdminHeader";
 
 const CategoryEditPage = () => {
-  const [newCategory, setNewCategory] = useState({ number: "", text: "", minsum: "", maxsum: "" });
-  const [editCategory, setEditCategory] = useState({ id: "", number: "", text: "", minsum: "", maxsum: "" });
+  const [newCategory, setNewCategory] = useState({ number: "", text: "", maxsum: "" });
+  const [editCategory, setEditCategory] = useState({ id: "", number: "", text: "", maxsum: "" });
   const [selectedCategory, setSelectedCategoryNumber] = useState("");
   const [categoryList, setCategoryList] = useState([]);
   const [selectedNumberBeforeEdit, setSelectedNumberBeforeEdit] = useState("");
@@ -33,9 +33,9 @@ const CategoryEditPage = () => {
   const handleAddCategory = async (event) => {
     event.preventDefault();
     try {
-      const category = new CategoryCreateDto(newCategory.number, newCategory.text, newCategory.minsum, newCategory.maxsum);
+      const category = new CategoryCreateDto(newCategory.number, newCategory.text, newCategory.maxsum);
       await axios.post(serverPath + "/create", category, { auth: basicAuth });
-      setNewCategory({ text: "", minsum: "", maxsum: "", number: "" });
+      setNewCategory({ text: "",  maxsum: "", number: "" });
       fetchCategories();
     } catch (error) {
       alert("Ошибка добавления категории");
@@ -45,8 +45,8 @@ const CategoryEditPage = () => {
   const handleEditCategory = async (event) => {
     event.preventDefault();
     try {
-      const category = new CategoryChangeDto(editCategory.id, editCategory.number, editCategory.text, editCategory.minsum, editCategory.maxsum); await axios.post(serverPath + "/category/change", category, { auth: basicAuth });
-      setEditCategory({ id: "", text: "", minsum: "", maxsum: "", number: "" });
+      const category = new CategoryChangeDto(editCategory.id, editCategory.number, editCategory.text, editCategory.maxsum); await axios.post(serverPath + "/category/change", category, { auth: basicAuth });
+      setEditCategory({ id: "", text: "", maxsum: "", number: "" });
       setSelectedNumberBeforeEdit("");
       fetchCategories();
     } catch (error) {
@@ -56,6 +56,10 @@ const CategoryEditPage = () => {
 
   const handleDeleteCategory = async (event) => {
     event.preventDefault();
+    var isDelete = window.confirm("Вы точно хотите удалить выбранную категорию? В случае удаления этой категории будут удалены все критерии, которые к ней относятся");
+    if (!isDelete) {
+      return;
+    }
     try {
       await axios.get(serverPath + "/delete?categoryId=" + selectedCategory, { auth: basicAuth });
       fetchCategories();
@@ -96,14 +100,6 @@ const CategoryEditPage = () => {
           maxLength={512}
           value={newCategory.text}
           onChange={(e) => setNewCategory({ ...newCategory, text: e.target.value })}
-        />
-        <label>Заполните минимальный балл, который можно получить по категории:</label>
-        <input
-          required
-          type="number"
-          placeholder="Минимальный балл"
-          value={newCategory.minsum}
-          onChange={(e) => setNewCategory({ ...newCategory, minsum: e.target.value })}
         />
         <label>Заполните максимальный балл, который можно получить по категории:</label>
         <input
@@ -146,14 +142,6 @@ const CategoryEditPage = () => {
           maxLength={512}
           value={editCategory.text}
           onChange={(e) => setEditCategory({ ...editCategory, text: e.target.value })}
-        />
-        <label>Заполните минимальный балл, который можно получить по категории:</label>
-        <input
-          required
-          type="number"
-          placeholder="Новый минимальный балл"
-          value={editCategory.minsum}
-          onChange={(e) => setEditCategory({ ...editCategory, minsum: e.target.value })}
         />
         <label>Заполните максимальный балл, который можно получить по категории:</label>
         <input

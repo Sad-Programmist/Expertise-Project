@@ -1,8 +1,7 @@
 export default class CategoryCreateDto {
-    constructor(number, text, minsum, maxsum) {
+    constructor(number, text, maxsum) {
       this.number = number;
       this.text = text;
-      this.minsum  = minsum;
       this.maxsum = maxsum;
     }
   }
