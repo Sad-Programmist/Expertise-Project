@@ -61,6 +61,12 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  color: #d6d6d6;
+  background-color: #262d50;
+  cursor: default;
+}
+
 input[type="radio"] {
   margin: 0 4px 8px 0;
   vertical-align: middle;
@@ -90,6 +96,23 @@ h3.first {
     max-width: 550px;
   }
 
+}
+
+@media screen and (max-width: 900px) {
+  .header ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .header ul li {
+    margin-bottom: 5px;
+  }
+  
+  .header a {
+    font-size: 16px;
+  }
 }
 
 table {
@@ -129,15 +152,17 @@ td {
   display: inline;
 }
 
-.header ul li:not(:last-child) {
-  margin-right: 20px;
-}
+ .header ul li:not(:last-child) {
+  margin-left: 7px;
+  margin-right: 7px;
+} 
 
 .header a {
   font-size: 18px;
   font-weight: bold;
   color: #000000;
   text-decoration: none;
+  text-align: center;
 }
 
 .header a:hover {
