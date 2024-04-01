@@ -8,13 +8,15 @@ import AdminHeader from "../../../components/AdminHeader";
 const ProjectEditPage = () => {
   const navigate = useNavigate();
 
-  const [newProject, setNewProject] = useState({ theme: "", participants: "", year: "" });
-  const [editProject, setEditProject] = useState({ id: "", theme: "", participants: "", year: "" });
+  const [newProject, setNewProject] = useState({ theme: "", participants: "", year: "", orderNumber: "" });
+  const [editProject, setEditProject] = useState({ id: "", theme: "", participants: "", year: "", orderNumber: "" });
   const [selectedProject, setSelectedProject] = useState("");
-  const [projectsList, setProjectsList] = useState([]);
+  const [projectsListChange, setProjectsListChange] = useState([]);
+  const [projectsListDelete, setProjectsListDelete] = useState([]);
   const [selectedThemeBeforeEdit, setSelectedThemeBeforeEdit] = useState("");
   const [yearsList, setYearsList] = useState([]);
-  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedYearChange, setSelectedYearChange] = useState("");
+  const [selectedYearDelete, setSelectedYearDelete] = useState("");
 
   const serverPath = process.env.REACT_APP_SERVER_PATH + "/project";
   const basicAuth = {
@@ -22,10 +24,19 @@ const ProjectEditPage = () => {
     password: process.env.REACT_APP_PASSWORD
   };
 
-  const fetchProjectsByYear = async (year) => {
+  const fetchProjectsByYearChange = async (year) => {
     try {
       const response = await axios.get(serverPath + "/edit?year=" + year, { auth: basicAuth });
-      setProjectsList(response.data);
+      setProjectsListChange(response.data);
+    } catch (error) {
+      alert("Ошибка загрузки списка проектов");
+    }
+  };
+
+  const fetchProjectsByYearDelete = async (year) => {
+    try {
+      const response = await axios.get(serverPath + "/edit?year=" + year, { auth: basicAuth });
+      setProjectsListDelete(response.data);
     } catch (error) {
       alert("Ошибка загрузки списка проектов");
     }
@@ -45,19 +56,22 @@ const ProjectEditPage = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedYear) {
-      fetchProjectsByYear(selectedYear);
+    if (selectedYearChange) {
+      fetchProjectsByYearChange(selectedYearChange);
     }
-  }, [selectedYear]);
+    if (selectedYearDelete) {
+      fetchProjectsByYearDelete(selectedYearDelete);
+    }
+  }, [selectedYearChange, selectedYearDelete]);
 
   const handleAddProject = async (event) => {
     event.preventDefault();
     try {
-      const project = new ProjectCreateDto(newProject.participants, newProject.theme, newProject.year);
+      const project = new ProjectCreateDto(newProject.participants, newProject.theme, newProject.year, newProject.orderNumber);
       await axios.post(serverPath + "/create", project, { auth: basicAuth });
-      fetchProjectsByYear(selectedYear);
+      fetchProjectsByYearChange(selectedYearChange);
       fetchYears();
-      setNewProject({ theme: "", participants: "", year: "" });
+      setNewProject({ theme: "", participants: "", year: "", orderNumber: "" });
     } catch (error) {
       alert("Ошибка добавления проекта");
     }
@@ -66,10 +80,10 @@ const ProjectEditPage = () => {
   const handleEditProject = async (event) => {
     event.preventDefault();
     try {
-      const project = new ProjectChangeDto(editProject.id, editProject.participants, editProject.theme, editProject.year);
+      const project = new ProjectChangeDto(editProject.id, editProject.participants, editProject.theme, editProject.year, editProject.orderNumber);
       await axios.post(serverPath + "/change", project, { auth: basicAuth });
-      fetchProjectsByYear(selectedYear);
-      setEditProject({ id: "", theme: "", participants: "", year: "" });
+      fetchProjectsByYearChange(selectedYearChange);
+      setEditProject({ id: "", theme: "", participants: "", year: "", orderNumber: "" });
       setSelectedThemeBeforeEdit("");
     } catch (error) {
       alert("Ошибка изменения проекта");
@@ -78,9 +92,13 @@ const ProjectEditPage = () => {
 
   const handleDeleteProject = async (event) => {
     event.preventDefault();
+    var isDelete = window.confirm("Вы точно хотите удалить выбранный проект? В случае удаления этого проекта будут удалены все сделанные по нему экспертные заключения");
+    if (!isDelete) {
+      return;
+    }
     try {
       await axios.get(serverPath + "/delete?projectId=" + selectedProject, { auth: basicAuth });
-      fetchProjectsByYear(selectedYear);
+      fetchProjectsByYearChange(selectedYearChange);
       setSelectedProject("");
     } catch (error) {
       alert("Ошибка удаления проекта");
@@ -88,7 +106,7 @@ const ProjectEditPage = () => {
   };
 
   const handleSelectProject = (selectedTheme) => {
-    const selectedProject = projectsList.find(project => project.theme === selectedTheme);
+    const selectedProject = projectsListChange.find(project => project.theme === selectedTheme);
     if (selectedProject) {
       setSelectedThemeBeforeEdit(selectedTheme);
       setEditProject(selectedProject);
@@ -112,6 +130,23 @@ const ProjectEditPage = () => {
         <p>Для добавления нового проекта необходимо заполнить тему проекта, ФИО участников и год участия.
           После нажмите на кнопку "Добавить", чтобы сохранить новый проект. <br />  <br />
           Внимание! Все поля обязательны для заполнения!</p>
+        <label>Заполните год участия проекта:</label>
+        <input
+          required
+          type="number"
+          placeholder="Год участия"
+          maxLength={4}
+          value={newProject.year}
+          onChange={(e) => setNewProject({ ...newProject, year: e.target.value })}
+        />
+        <label>Заполните порядковый номер проекта при выступлении:</label>
+        <input
+          required
+          type="number"
+          placeholder="Порядковый номер проекта"
+          value={newProject.orderNumber}
+          onChange={(e) => setNewProject({ ...newProject, orderNumber: e.target.value })}
+        />
         <label>Заполните тему проекта:</label>
         <input
           required
@@ -130,27 +165,7 @@ const ProjectEditPage = () => {
           value={newProject.participants}
           onChange={(e) => setNewProject({ ...newProject, participants: e.target.value })}
         />
-        <label>Заполните год участия проекта:</label>
-        <input
-          required
-          type="number"
-          placeholder="Год участия"
-          maxLength={4}
-          value={newProject.year}
-          onChange={(e) => setNewProject({ ...newProject, year: e.target.value })}
-        />
         <button type="submit">Добавить</button>
-      </form>
-
-      <form>
-        <h2>Выберите год</h2>
-        <p>Перед изменением или удаленим проектов обязательно выберите год.</p>
-        <select onChange={(e) => setSelectedYear(e.target.value)}>
-          <option value="">Год</option>
-          {yearsList.map((year) => (
-            <option key={year} value={year}>{year}</option>
-          ))}
-        </select>
       </form>
 
       <form onSubmit={handleEditProject}>
@@ -158,15 +173,29 @@ const ProjectEditPage = () => {
         <p>Для изменения данных о проекте необходимо в выпадающем списке по теме проекта выбрать проект, данные о котором собираетесь изменить. <br /><br />
           После выбора определенной темы все поля автоматически заполнятся информацией, сохраненной о проекте на данный момент. <br /><br />
           Измените все необходимые поля и затем нажмите кнопку "Изменить", чтобы сохранить новые данные о проекте.</p>
+        <select onChange={(e) => setSelectedYearChange(e.target.value)}>
+          <option value="">Год</option>
+          {yearsList.map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
         <select
           required
           value={selectedThemeBeforeEdit}
           onChange={(e) => { setSelectedThemeBeforeEdit(e.target.value); handleSelectProject(e.target.value); }}>
           <option value="">Выберите проект</option>
-          {projectsList.map((project) => (
+          {projectsListChange.map((project) => (
             <option key={project.id} value={project.theme}>{project.theme}</option>
           ))}
         </select>
+        <label>Заполните порядковый номер проекта при выступлении:</label>
+        <input
+          required
+          type="number"
+          placeholder="Порядковый номер проекта"
+          value={editProject.orderNumber}
+          onChange={(e) => setEditProject({ ...editProject, orderNumber: e.target.value })}
+        />
         <label>Заполните тему проекта:</label>
         <input
           required
@@ -203,12 +232,18 @@ const ProjectEditPage = () => {
           После этого нажмите на кнопку "Удалить", чтобы выбранный проект был удален. <br /><br />
           Внимание! Данные о проекте нельзя будет восстановить после удаления!
         </p>
+        <select onChange={(e) => setSelectedYearDelete(e.target.value)}>
+          <option value="">Год</option>
+          {yearsList.map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
         <select
           required
           value={selectedProject}
           onChange={(e) => setSelectedProject(e.target.value)}>
           <option value="">Выберите проект</option>
-          {projectsList.map((project) => (
+          {projectsListDelete.map((project) => (
             <option key={project.id} value={project.id}>{project.theme}</option>
           ))}
         </select>

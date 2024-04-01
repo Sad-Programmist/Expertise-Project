@@ -52,6 +52,10 @@ const CriteriaEditPage = () => {
 
   const handleDeleteCriteria = async (event) => {
     event.preventDefault();
+    var isDelete = window.confirm("Вы точно хотите удалить выбранный критерий?");
+    if (!isDelete) {
+      return;
+    }
     try {
       await axios.get(serverPath + "/criteria/delete?criteriaId=" + selectedCriteria, { auth: basicAuth });
       fetchCriteria();

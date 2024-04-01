@@ -41,9 +41,17 @@ const AdminEditPage = () => {
 
   const handleDeleteOrganizer = async (event) => {
     event.preventDefault();
+    var isDelete = window.confirm("Вы точно хотите удалить выбранного организатора ? В случае удаления этот организатор больше не будет иметь доступ к системе");
+    if (!isDelete) {
+      return;
+    }
     try {
+      if (adminList.length > 1) {
       await axios.get(serverPath + "/delete?adminId=" + selectedAdmin, { auth: basicAuth });
       fetchAdmins();
+      } else {
+        alert("Нельзя удалить организатора, так как остался только 1 организатор")
+      }
     } catch (error) {
       alert("Ошибка удаления организатора");
     }

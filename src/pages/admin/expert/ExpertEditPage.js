@@ -59,6 +59,10 @@ const ExpertEditPage = () => {
 
   const handleDeleteExpert = async (event) => {
     event.preventDefault();
+    var isDelete = window.confirm("Вы точно хотите удалить выбранного эксперта? В случае удаления этот эксперт большене будет иметь доступ к системе");
+    if (!isDelete) {
+      return;
+    }
     try {
       await axios.get(serverPath + "/delete?expertId=" + selectedExpert, { auth: basicAuth });
       fetchExperts();
