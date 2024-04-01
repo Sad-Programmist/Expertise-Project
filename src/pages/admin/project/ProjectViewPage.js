@@ -60,6 +60,7 @@ const ProjectsViewPage = () => {
         <table>
           <thead>
             <tr>
+              <th>Номер</th>
               <th>Тема</th>
               <th>Участники</th>
               <th>Оценка</th>
@@ -68,6 +69,7 @@ const ProjectsViewPage = () => {
           <tbody>
             {projects.map(project => (
               <tr key={project.id}>
+                <td>{project.orderNumber}</td>
                 <td>{project.theme}</td>
                 <td>{project.participants}</td>
                 <td>{project.score}</td>
