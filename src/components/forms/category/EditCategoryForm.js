@@ -12,7 +12,7 @@ const EditCategoryForm = ({ categoryList, fetchCategories }) => {
     event.preventDefault();
     try {
       const category = { id: editCategory.id, number: editCategory.number, text: editCategory.text, maxsum: editCategory.maxsum };
-      await axios.post(serverPath + "/category/change", category, { auth: basicAuth });
+      await axios.post(serverPath + "/change", category, { auth: basicAuth });
       setEditCategory({ id: "", text: "", maxsum: "", number: "" });
       setSelectedNumberBeforeEdit("");
       fetchCategories();
