@@ -1,44 +1,47 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AuthPage from "./pages/auth/AuthPage";
-import ExpertPage from "./pages/expert/ExpertPage";
+import AuthPage from "./pages/AuthPage";
+import ExpertMenuPage from "./pages/expert/ExpertMenuPage";
 import OpinionCreatePage from "./pages/expert/opinion/OpinionCreatePage";
-import OpinionChangePage from "./pages/expert/opinion/OpinionChangePage";
+import OpinionEditPage from "./pages/expert/opinion/OpinionEditPage";
 import OpinionViewPage from "./pages/expert/opinion/OpinionViewPage";
-import AdminPage from "./pages/admin/AdminPage";
-import ProjectEditPage from "./pages/admin/project/ProjectEditPage";
+import OpinionViewTablePage from "./pages/expert/opinion/OpinionViewTablePage";
+import AdminMenuPage from "./pages/admin/AdminMenuPage";
+import ProjectManagePage from "./pages/admin/project/ProjectManagePage";
 import ProjectViewPage from "./pages/admin/project/ProjectViewPage";
-import ExpertEditPage from "./pages/admin/expert/ExpertEditPage";
+import ExpertManagePage from "./pages/admin/expert/ExpertManagePage";
 import ExpertViewPage from "./pages/admin/expert/ExpertViewPage";
-import AdminEditPage from "./pages/admin/AdminEditPage";
-import AdminOpinionViewPage from "./pages/admin/AdminOpinionViewPage";
-import RatingPage from "./pages/admin/RatingPage";
-import CriteriaEditPage from "./pages/admin/criteria/CriteriaEditPage";
+import AdminManagePage from "./pages/admin/admin/AdminManagePage";
+import AdminOpinionViewPage from "./pages/admin/opinion/AdminOpinionViewPage";
+import RatingViewPage from "./pages/admin/rating/RatingViewPage";
+import CriteriaManagePage from "./pages/admin/criteria/CriteriaManagePage";
 import CriteriaViewPage from "./pages/admin/criteria/CriteriaViewPage";
-import CategoryEditPage from "./pages/admin/criteria/CategoryEditPage";
-import CriteriaTableEditPage from "./pages/admin/criteria/CriteriaTableEditPage";
-import "./Page.css";
+import CategoryManagePage from "./pages/admin/criteria/CategoryManagePage";
+import CriteriaMenuPage from "./pages/admin/criteria/CriteriaMenuPage";
+import "./style.css";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<AuthPage />} />
-        <Route path="/expert" element={<ExpertPage />} />
-        <Route path="/expert/create" element={<OpinionCreatePage />} />
-        <Route path="/expert/change" element={<OpinionChangePage />} />
-        <Route path="/expert/view" element={<OpinionViewPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/project" element={<ProjectEditPage />} />
-        <Route path="/admin/project/view" element={<ProjectViewPage />} />
-        <Route path="/admin/expert" element={<ExpertEditPage />} />
-        <Route path="/admin/expert/view" element={<ExpertViewPage />} />
-        <Route path="/admin/admin" element={<AdminEditPage />} />
-        <Route path="/admin/opinion" element={<AdminOpinionViewPage />} />
-        <Route path="/admin/rating" element={<RatingPage />} />
-        <Route path="/admin/criteria/criteria" element={<CriteriaEditPage />} />
-        <Route path="/admin/criteria/category" element={<CategoryEditPage />} />
-        <Route path="/admin/criteria/view" element={<CriteriaViewPage />} />
-        <Route path="/admin/criteria" element={<CriteriaTableEditPage />} />
+        <Route path="/expert" element={<ProtectedRoute><ExpertMenuPage /></ProtectedRoute>} />
+        <Route path="/expert/create" element={<ProtectedRoute><OpinionCreatePage /></ProtectedRoute>} />
+        <Route path="/expert/change" element={<ProtectedRoute><OpinionEditPage /></ProtectedRoute>} />
+        <Route path="/expert/view" element={<ProtectedRoute><OpinionViewPage /></ProtectedRoute>} />
+        <Route path="/expert/view/table" element={<ProtectedRoute><OpinionViewTablePage /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminMenuPage /></ProtectedRoute>} />
+        <Route path="/admin/project" element={<ProtectedRoute><ProjectManagePage /></ProtectedRoute>} />
+        <Route path="/admin/project/view" element={<ProtectedRoute><ProjectViewPage /></ProtectedRoute>} />
+        <Route path="/admin/expert" element={<ProtectedRoute><ExpertManagePage /></ProtectedRoute>} />
+        <Route path="/admin/expert/view" element={<ProtectedRoute><ExpertViewPage /></ProtectedRoute>} />
+        <Route path="/admin/admin" element={<ProtectedRoute><AdminManagePage /></ProtectedRoute>} />
+        <Route path="/admin/opinion" element={<ProtectedRoute><AdminOpinionViewPage /></ProtectedRoute>} />
+        <Route path="/admin/rating" element={<ProtectedRoute><RatingViewPage /></ProtectedRoute>} />
+        <Route path="/admin/criteria/criteria" element={<ProtectedRoute><CriteriaManagePage /></ProtectedRoute>} />
+        <Route path="/admin/criteria/category" element={<ProtectedRoute><CategoryManagePage /></ProtectedRoute>} />
+        <Route path="/admin/criteria/view" element={<ProtectedRoute><CriteriaViewPage /></ProtectedRoute>} />
+        <Route path="/admin/criteria" element={<ProtectedRoute><CriteriaMenuPage /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );

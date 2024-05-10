@@ -152,7 +152,7 @@ td {
   display: inline;
 }
 
- .header ul li:not(:last-child) {
+ .header ul li {
   margin-left: 7px;
   margin-right: 7px;
 } 

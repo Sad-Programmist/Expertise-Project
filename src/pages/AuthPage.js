@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
@@ -11,10 +11,12 @@ const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const serverPath = process.env.REACT_APP_SERVER_PATH;
-  const basicAuth = {
-    username: process.env.REACT_APP_USERNAME,
-    password: process.env.REACT_APP_PASSWORD
-  };
+  const basicAuth = { username: process.env.REACT_APP_USERNAME, password: process.env.REACT_APP_PASSWORD };
+  const isAuthenticated = process.env.REACT_APP_IS_AUTH;
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   const handleAuth = async (event) => {
     event.preventDefault();
@@ -24,12 +26,20 @@ const AuthPage = () => {
       if (selectedRole === "expert") {
         const response = await axios.post(serverPath + "/expert/auth", { login, password }, { auth: basicAuth });
         localStorage.setItem("loggedExpertId", response.data);
+        localStorage.setItem("isAuthenticated", isAuthenticated);
       } else if (selectedRole === "admin") {
         await axios.post(serverPath + "/admin/auth", { login, password }, { auth: basicAuth });
+        localStorage.setItem("isAuthenticated", isAuthenticated);
       }
       navigate("/" + selectedRole);
     } catch (error) {
-      alert("Неверный логин или пароль");
+      if (error.code === AxiosError.ERR_NETWORK) {
+        alert("Ошибка сервера");
+      } else if (error.response.status === 401) {
+        alert("Неверный логин или пароль");
+      } else {
+        alert("Ошибка входа в ситему: " + error.response.status);
+      }
     }
     document.body.style.cursor = 'default';
     setIsLoading(false);
