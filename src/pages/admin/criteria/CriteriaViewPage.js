@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdminHeader from "../../../components/AdminHeader";
+import AdminHeader from "../../../components/headers/AdminHeader";
 
 const CriteriaViewPage = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [criteriaList, setCriteriaList] = useState([]);
 
   const serverPath = process.env.REACT_APP_SERVER_PATH;
-  const basicAuth = {
-    username: process.env.REACT_APP_USERNAME,
-    password: process.env.REACT_APP_PASSWORD
-  };
+  const basicAuth = { username: process.env.REACT_APP_USERNAME, password: process.env.REACT_APP_PASSWORD };
 
   const fetchCategories = async () => {
     try {
@@ -40,7 +37,7 @@ const CriteriaViewPage = () => {
       <AdminHeader />
       <form>
         <h2>Просмотр таблицы критериев</h2>
-        <p>В таблице будет отражен список всех критериев по категориям с указанием максимального балла.</p>
+        <p>В таблице отображен список всех сохраненных в системе критериев, распределенных по категориям, с указанием максимального балла за каждую категорию.</p>
         <table>
           <thead>
             <tr>
