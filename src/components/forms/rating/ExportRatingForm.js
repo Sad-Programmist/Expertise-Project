@@ -3,13 +3,15 @@ import axios from "axios";
 
 const ExportRatingForm = ({ yearList }) => {
   const [year, setYear] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const serverPath = process.env.REACT_APP_SERVER_PATH;
   const basicAuth = { username: process.env.REACT_APP_USERNAME, password: process.env.REACT_APP_PASSWORD };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    document.body.style.cursor = 'wait';
+    setIsLoading(true);
     try {
       const response = await axios.get(serverPath + "/rating/export?year=" + year, {
         responseType: 'blob',
@@ -23,8 +25,10 @@ const ExportRatingForm = ({ yearList }) => {
       link.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      alert("Ошибка загрузки файла");
+      alert("Ошибка экспорта файла");
     }
+    document.body.style.cursor = 'default';
+    setIsLoading(false);
   };
 
   return (
@@ -38,7 +42,7 @@ const ExportRatingForm = ({ yearList }) => {
           <option key={year} value={year}>{year}</option>
         ))}
       </select>
-      <button type="submit">Экспорт</button>
+      <button disabled={isLoading} type="submit">Экспорт</button>
     </form>
   );
 };
