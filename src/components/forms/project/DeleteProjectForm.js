@@ -43,7 +43,7 @@ const DeleteProjectForm = ({ projectDeleteList, yearList, fetchProjectsByYearDel
         required
         value={selectedProject}
         onChange={(e) => setSelectedProject(e.target.value)}>
-        <option value="">Выберите проект</option>
+        <option value="">Выберите тему проекта</option>
         {projectDeleteList.map((project) => (
           <option key={project.id} value={project.id}>{project.theme}</option>
         ))}

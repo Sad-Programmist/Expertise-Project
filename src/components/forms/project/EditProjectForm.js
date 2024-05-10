@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, fetchYear }) => {
+const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, fetchYears }) => {
   const [editProject, setEditProject] = useState({ id: "", theme: "", author: "", year: "", orderNumber: "" });
   const [selectedThemeBeforeEdit, setSelectedThemeBeforeEdit] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
@@ -17,11 +17,12 @@ const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, f
         year: editProject.year, orderNumber: editProject.orderNumber
       };
       await axios.post(serverPath + "/change", project, { auth: basicAuth });
-      fetchProjectsByYearEdit(selectedYear);
-      fetchYear();
+      fetchYears();
       setEditProject({ id: "", theme: "", author: "", year: "", orderNumber: "" });
       setSelectedThemeBeforeEdit("");
+      setSelectedYear("");
     } catch (error) {
+      console.log(error);
       alert("Ошибка изменения проекта");
     }
   };
@@ -51,7 +52,7 @@ const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, f
         required
         value={selectedThemeBeforeEdit}
         onChange={(e) => { setSelectedThemeBeforeEdit(e.target.value); handleSelectProject(e.target.value); }}>
-        <option value="">Выберите проект</option>
+        <option value="">Выберите тему проекта</option>
         {projectEditList.map((project) => (
           <option key={project.id} value={project.theme}>{project.theme}</option>
         ))}
