@@ -26,7 +26,6 @@ const RatingPage = () => {
   const fetchRatingByYear = async (selectedYear) => {
     try {
       const response = await axios.get(serverPath + "/rating?year=" + selectedYear, { auth: basicAuth });
-      console.log(response.data);
       setRating(response.data);
     } catch (error) {
       alert("Ошибка загрузки рейтинга");
