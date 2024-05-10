@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ExpertHeader from "../../../components/headers/ExpertHeader";
-import AddOpinionForm from "../../../components/forms/opinion/AddOpinionForm";
+import EditOpinionForm from "../../../components/forms/opinion/EditOpinionForm";
 
-const OpinionCreatePage = () => {
+const OpinionChangePage = () => {
   const [projectList, setProjectList] = useState([]);
   const [criteriaList, setCriteriaList] = useState([]);
-  const [criteriaScoreList, setCriteriaScoreList] = useState({});
   const [categoryList, setCategoryList] = useState([]);
   const [expertName, setExpertName] = useState([]);
   const loggedExpertId = localStorage.getItem("loggedExpertId");
@@ -15,19 +14,19 @@ const OpinionCreatePage = () => {
   const basicAuth = { username: process.env.REACT_APP_USERNAME, password: process.env.REACT_APP_PASSWORD };
 
   useEffect(() => {
-    fetchProjects();
+    fetchProjectThemes();
     fetchCategory();
     fetchCriteria();
     fetchExpertName();
   }, []);
 
-  const fetchProjects = async () => {
+  const fetchProjectThemes = async () => {
     try {
       const year = new Date().getFullYear();
-      const response = await axios.get(serverPath + "/opinion/create?expertId=" + loggedExpertId + "&year=" + year, { auth: basicAuth });
+      const response = await axios.get(serverPath + "/opinion/change?expertId=" + loggedExpertId + "&year=" + year, { auth: basicAuth });
       setProjectList(response.data);
     } catch (error) {
-      alert("Ошибка загрузки списка проектов");
+      alert("Ошибка загрузки проектов");
     }
   };
 
@@ -35,12 +34,6 @@ const OpinionCreatePage = () => {
     try {
       const response = await axios.get(serverPath + "/criteria/edit", { auth: basicAuth });
       setCriteriaList(response.data);
-
-      const initialCriteriaScores = {};
-      response.data.forEach(criteria => {
-        initialCriteriaScores[criteria.id] = 0;
-      });
-      setCriteriaScoreList(initialCriteriaScores);
     } catch (error) {
       alert("Ошибка загрузки списка критериев");
     }
@@ -60,23 +53,20 @@ const OpinionCreatePage = () => {
       const response = await axios.get(serverPath + "/expert?expertId=" + loggedExpertId, { auth: basicAuth });
       setExpertName(response.data.name);
     } catch (error) {
-      alert("Ошибка загрузки данных об эксперте");
+      alert("Ошибка загрузки эксперта");
     }
   };
 
   return (
     <div>
       <ExpertHeader />
-      <AddOpinionForm
+      <EditOpinionForm
         expertName={expertName}
-        criteriaScoreList={criteriaScoreList}
-        setCriteriaScoreList={setCriteriaScoreList}
-        projectList={projectList}
         criteriaList={criteriaList}
         categoryList={categoryList}
-        fetchProjects={fetchProjects} />
+        projectList={projectList} />
     </div>
   );
 };
 
-export default OpinionCreatePage;
+export default OpinionChangePage;
