@@ -47,7 +47,7 @@ const AuthPage = () => {
 
   return (
     <form onSubmit={handleAuth}>
-      <h1>Авторизация</h1>
+      <h1>Вход в систему</h1>
       <select required value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
         <option value="">Выберите роль</option>
         <option value="expert">Эксперт</option>
@@ -70,7 +70,7 @@ const AuthPage = () => {
         />
       </div>
       <div>
-        <button disabled={isLoading} type="submit">Авторизоваться</button>
+        <button disabled={isLoading} type="submit">Войти</button>
       </div>
     </form>
   );
