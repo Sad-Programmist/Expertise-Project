@@ -40,7 +40,7 @@ const ProjectsViewPage = () => {
         <p>Для просмотра всех проектов сохраненных в системе, необходимо в выпадающем списке выбрать год участия проектов. 
           После этого данные будут загружены автоматически.</p>
         <select onChange={(e) => { fetchProjectsByYear(e.target.value); }}>
-          <option value="">Выберите год</option>
+          <option value="" disabled selected hidden>Выберите год</option>
           {yearList.map(year => (
             <option key={year} value={year}>{year}</option>
           ))}

@@ -36,7 +36,7 @@ const DeleteAdminForm = ({ adminList, fetchAdmins }) => {
         required
         value={selectedAdmin}
         onChange={(e) => setSelectedAdmin(e.target.value)}>
-        <option value="">Выберите логин организатора</option>
+        <option value="" disabled selected hidden>Выберите логин организатора</option>
         {adminList.map((organizer) => (
           <option key={organizer.id} value={organizer.id}>{organizer.login}</option>
         ))}

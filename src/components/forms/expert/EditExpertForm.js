@@ -38,7 +38,7 @@ const EditExpertForm = ({ expertList, fetchExperts }) => {
         required
         value={selectedNameBeforeEdit}
         onChange={(e) => { setSelectedNameBeforeEdit(e.target.value); handleSelectExpert(e.target.value) }}>
-        <option value="">Выберите ФИО эксперта</option>
+        <option value="" disabled selected hidden>Выберите ФИО эксперта</option>
         {expertList.map((expert) => (
           <option key={expert.id} value={expert.name}>{expert.name}</option>
         ))}

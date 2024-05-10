@@ -45,7 +45,7 @@ const RatingPage = () => {
         </p>
         <select
           onChange={(e) => fetchRatingByYear(e.target.value)}>
-          <option value="">Выберите год</option>
+          <option value="" disabled selected hidden>Выберите год</option>
           {yearList.map(year => (
             <option key={year} value={year}>{year}</option>
           ))}

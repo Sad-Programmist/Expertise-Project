@@ -33,7 +33,7 @@ const ExportRatingForm = ({ yearList }) => {
       <p>Чтобы выполнить экспорт рейтинга проектов, необходимо в выпадающем списке выберать год участия проектов и нажать на кнопку "Экспорт".</p>
       <select
         onChange={(e) => setYear(e.target.value)}>
-        <option value="">Выберите год</option>
+        <option value="" disabled selected hidden>Выберите год</option>
         {yearList.map(year => (
           <option key={year} value={year}>{year}</option>
         ))}

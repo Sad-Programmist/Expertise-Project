@@ -39,7 +39,7 @@ const EditCategoryForm = ({ categoryList, fetchCategories }) => {
         required
         value={selectedNumberBeforeEdit}
         onChange={(e) => { setSelectedNumberBeforeEdit(e.target.value); handleSelectCategory(e.target.value) }}>
-        <option value="">Выберите номер категории</option>
+        <option value="" disabled selected hidden>Выберите номер категории</option>
         {categoryList.map((category) => (
           <option key={category.id} value={category.number}>{category.number}</option>
         ))}

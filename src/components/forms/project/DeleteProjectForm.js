@@ -28,13 +28,16 @@ const DeleteProjectForm = ({ projectDeleteList, yearList, fetchProjectsByYearDel
   return (
     <form onSubmit={handleDeleteProject}>
       <h2>Удаление проекта</h2>
-      <p>Чтобы удалить сохраненный в системе проект, необходимо сначала в выпадающем списке выбрать год участия проекта, 
+      <p>Чтобы удалить сохраненный в системе проект, необходимо сначала в выпадающем списке выбрать год участия проекта,
         а потом в другом выпадающем списке его тему.
         После выбора темы нажмите на кнопку "Удалить", чтобы выбранный проект был удален из системы. <br /><br />
         Обратите внимание, что данные о проекте нельзя будет восстановить после удаления!
       </p>
-      <select onChange={(e) => { setSelectedYear(e.target.value); fetchProjectsByYearDelete(e.target.value); }}>
-        <option value="">Год</option>
+      <select
+        required
+        value={selectedYear}
+        onChange={(e) => { setSelectedYear(e.target.value); fetchProjectsByYearDelete(e.target.value); }}>
+        <option value="" disabled selected hidden>Выберите год</option>
         {yearList.map((year) => (
           <option key={year} value={year}>{year}</option>
         ))}
@@ -43,7 +46,7 @@ const DeleteProjectForm = ({ projectDeleteList, yearList, fetchProjectsByYearDel
         required
         value={selectedProject}
         onChange={(e) => setSelectedProject(e.target.value)}>
-        <option value="">Выберите тему проекта</option>
+        <option value="" disabled selected hidden>Выберите тему проекта</option>
         {projectDeleteList.map((project) => (
           <option key={project.id} value={project.id}>{project.theme}</option>
         ))}

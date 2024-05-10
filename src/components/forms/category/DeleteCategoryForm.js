@@ -33,7 +33,7 @@ const DeleteCategoryForm = ({ categoryList, fetchCategories }) => {
         required
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}>
-        <option value="">Выберите номер категории</option>
+        <option value="" disabled selected hidden>Выберите номер категории</option>
         {categoryList.map((category) => (
           <option key={category.id} value={category.id}>{category.number}</option>
         ))}

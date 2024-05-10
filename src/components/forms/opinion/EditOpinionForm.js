@@ -96,7 +96,7 @@ const EditOpinionForm = ({ expertName, projectList, categoryList, criteriaList }
           <h3>Автор: {selectedProject && projectList.find(project => project.id == selectedProject)?.author}</h3>
           <h3>Тема:</h3>
           <select required value={selectedProject} onChange={handleProjectChange}>
-            <option value="">Выберите тему проекта</option>
+            <option value="" disabled selected hidden>Выберите тему проекта</option>
             {projectList.map((project) => (
               <option key={project.id} value={project.id}>{project.theme}</option>
             ))}

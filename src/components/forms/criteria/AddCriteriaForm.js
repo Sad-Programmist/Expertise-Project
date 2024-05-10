@@ -30,7 +30,7 @@ const AddCriteriaForm = ({ categoryList, fetchCriteria }) => {
         value={newCriteria.category}
         onChange={(e) => setNewCriteria({ ...newCriteria, category: e.target.value })}
       >
-        <option value="">Выберите категорию</option>
+        <option value="" disabled selected hidden>Выберите номер категории</option>
         {categoryList.map((category) => (
           <option key={category.id} value={category.id}>{category.number}</option>
         ))}

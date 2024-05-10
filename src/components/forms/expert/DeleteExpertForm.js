@@ -33,7 +33,7 @@ const DeleteExpertForm = ({ expertList, fetchExperts }) => {
         required
         value={selectedExpert}
         onChange={(e) => setSelectedExpert(e.target.value)}>
-        <option value="">Выберите ФИО эксперта</option>
+        <option value="" disabled selected hidden>Выберите ФИО эксперта</option>
         {expertList.map((expert) => (
           <option key={expert.id} value={expert.id}>{expert.name}</option>
         ))}

@@ -108,7 +108,7 @@ const OpinionViewPage = () => {
         <div>
           <h3 className="first">Эксперт: </h3>
           <select required value={selectedExpert} onChange={handleExpertChange}>
-            <option value="">Выберите ФИО эксперта</option>
+            <option value="" disabled selected hidden>Выберите ФИО эксперта</option>
             {expertList.map((expert) => (
               <option key={expert.id} value={expert.id}>{expert.name}</option>
             ))}
@@ -116,7 +116,7 @@ const OpinionViewPage = () => {
           <h3>Автор: {selectedProject && projectList.find(project => project.id == selectedProject)?.author}</h3>
           <h3>Тема:</h3>
           <select required value={selectedProject} onChange={handleProjectChange}>
-            <option value="">Выберите тему проекта</option>
+            <option value="" disabled selected hidden>Выберите тему проекта</option>
             {projectList.map((project) => (
               <option key={project.id} value={project.id}>{project.theme}</option>
             ))}

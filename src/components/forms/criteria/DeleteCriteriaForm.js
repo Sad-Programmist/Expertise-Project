@@ -33,7 +33,7 @@ const DeleteCriteriaForm = ({ criteriaList, fetchCriteria }) => {
         required
         value={selectedCriteria}
         onChange={(e) => setSelectedCriteria(e.target.value)}>
-        <option value="">Выберите номер критерия</option>
+        <option value="" disabled selected hidden>Выберите номер критерия</option>
         {criteriaList.map((criteria) => (
           <option key={criteria.id} value={criteria.id}>{`${criteria.categoryNumber}.${criteria.number}`}</option>
         ))}

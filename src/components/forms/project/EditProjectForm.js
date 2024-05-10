@@ -17,10 +17,10 @@ const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, f
         year: editProject.year, orderNumber: editProject.orderNumber
       };
       await axios.post(serverPath + "/change", project, { auth: basicAuth });
+      setSelectedYear("");
       fetchYears();
       setEditProject({ id: "", theme: "", author: "", year: "", orderNumber: "" });
       setSelectedThemeBeforeEdit("");
-      setSelectedYear("");
     } catch (error) {
       console.log(error);
       alert("Ошибка изменения проекта");
@@ -38,12 +38,15 @@ const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, f
   return (
     <form onSubmit={handleEditProject}>
       <h2>Изменение данных о проекте</h2>
-      <p>Чтобы измененить данные о сохраненном в системе проекте, необходимо сначала в выпадающем списке выбрать год участия проекта, 
+      <p>Чтобы измененить данные о сохраненном в системе проекте, необходимо сначала в выпадающем списке выбрать год участия проекта,
         а потом в другом выпадающем списке его тему.
         При выборе темы все поля автоматически заполнятся информацией, сохраненной о проекте на данный момент. <br /><br />
         После внесения изменений нажмите на кнопку "Изменить", чтобы сохранить новые данные о проекте.</p>
-      <select onChange={(e) => { setSelectedYear(e.target.value); fetchProjectsByYearEdit(e.target.value); }}>
-        <option value="">Год</option>
+      <select
+        required
+        value={selectedYear}
+        onChange={(e) => { setSelectedYear(e.target.value); fetchProjectsByYearEdit(e.target.value); }}>
+        <option value="" disabled selected hidden>Выберите год</option>
         {yearList.map((year) => (
           <option key={year} value={year}>{year}</option>
         ))}
@@ -52,7 +55,7 @@ const EditProjectForm = ({ projectEditList, yearList, fetchProjectsByYearEdit, f
         required
         value={selectedThemeBeforeEdit}
         onChange={(e) => { setSelectedThemeBeforeEdit(e.target.value); handleSelectProject(e.target.value); }}>
-        <option value="">Выберите тему проекта</option>
+        <option value="" disabled selected hidden>Выберите тему проекта</option>
         {projectEditList.map((project) => (
           <option key={project.id} value={project.theme}>{project.theme}</option>
         ))}
