@@ -9,6 +9,7 @@ const ExpertHeader = () => {
         <li><Link to="/expert/create">Добавление</Link></li>
         <li><Link to="/expert/change">Изменение</Link></li>
         <li><Link to="/expert/view">Просмотр</Link></li>
+        <li><Link to="/expert/view/table">Таблица</Link></li>
       </ul>
     </div>
   );
