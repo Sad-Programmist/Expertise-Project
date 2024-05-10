@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdminHeader from "../../components/AdminHeader";
+import AdminHeader from "../../../components/headers/AdminHeader";
+import ExportRatingForm from "../../../components/forms/rating/ExportRatingForm";
 
 const RatingPage = () => {
-  const [selectedYear, setSelectedYear] = useState("");
   const [rating, setRating] = useState([]);
-  const [years, setYears] = useState([]);
+  const [yearList, setYearList] = useState([]);
 
   const serverPath = process.env.REACT_APP_SERVER_PATH;
-  const basicAuth = {
-    username: process.env.REACT_APP_USERNAME,
-    password: process.env.REACT_APP_PASSWORD
-  };
-
+  const basicAuth = { username: process.env.REACT_APP_USERNAME, password: process.env.REACT_APP_PASSWORD };
 
   useEffect(() => {
     fetchYears();
@@ -21,13 +17,13 @@ const RatingPage = () => {
   const fetchYears = async () => {
     try {
       const response = await axios.get(serverPath + "/project", { auth: basicAuth });
-      setYears(response.data);
+      setYearList(response.data);
     } catch (error) {
       alert("Ошибка загрузки списка годов");
     }
   };
 
-  const fetchRatingByYear = async () => {
+  const fetchRatingByYear = async (selectedYear) => {
     try {
       const response = await axios.get(serverPath + "/rating?year=" + selectedYear, { auth: basicAuth });
       console.log(response.data);
@@ -37,29 +33,20 @@ const RatingPage = () => {
     }
   };
 
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value);
-  };
-
-  useEffect(() => {
-    if (selectedYear !== "") {
-      fetchRatingByYear();
-    }
-  }, [selectedYear]);
-
   return (
     <div>
       <AdminHeader />
+      <ExportRatingForm
+        yearList={yearList} />
       <form>
         <h2>Просмотр рейтинга проектов</h2>
-        <p>Для просмотра рейтинга проектов, необходимо сначала в выпадающем списке выбрать год участия проектов. <br /><br />
-          Проект, который поддержало меньше половины экспертов, автоматически получает балл раный 0 и не проходит в финал.
+        <p>Чтобы просмотреть рейтинг проектов, необходимо в выпадающем списке выбрать год участия проектов.
+          При выборе года рейтинг будет загружен автоматически.
         </p>
         <select
-          value={selectedYear}
-          onChange={handleYearChange}>
+          onChange={(e) => fetchRatingByYear(e.target.value)}>
           <option value="">Выберите год</option>
-          {years.map(year => (
+          {yearList.map(year => (
             <option key={year} value={year}>{year}</option>
           ))}
         </select>
@@ -77,7 +64,7 @@ const RatingPage = () => {
               <tr key={project.id}>
                 <td>{index + 1}</td>
                 <td>{project.theme}</td>
-                <td>{project.participants}</td>
+                <td>{project.author}</td>
                 <td>{project.score}</td>
               </tr>
             ))}
