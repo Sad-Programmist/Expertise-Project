@@ -35,12 +35,6 @@ const OpinionCreatePage = () => {
     try {
       const response = await axios.get(serverPath + "/criteria/edit", { auth: basicAuth });
       setCriteriaList(response.data);
-
-      const initialCriteriaScores = {};
-      response.data.forEach(criteria => {
-        initialCriteriaScores[criteria.id] = 0;
-      });
-      setCriteriaScoreList(initialCriteriaScores);
     } catch (error) {
       alert("Ошибка загрузки списка критериев");
     }

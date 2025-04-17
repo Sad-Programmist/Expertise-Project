@@ -36,7 +36,7 @@ const InputCriteriaTable = ({ criteriaList, categoryList, invalidCriteriaIds, cr
                   <td>
                     <input
                       type="number"
-                      placeholder="0"
+                      required
                       value={criteriaScoreList[criteria.id] || ""}
                       onChange={(event) => handleCriteriaScoreChange(criteria.id, event)}
                     />
